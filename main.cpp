@@ -15,9 +15,6 @@ int main() {
 	SerialPort arduino(port);
 	if (arduino.isConnected()) {
 		cout << "Connexion est etablie" << '\n';
-		cout << "Ecrire le chiffre qui correspond a votre demande" << '\n' << '\n';
-		cout << "[1] Faire rentrer une personne" << '\n';
-		cout << "[2] Faire sortir une personne" << '\n';
 	}
 	else {
 		cout << "Une erreur est survenue";
@@ -27,37 +24,26 @@ int main() {
 		string command;
 		cin >> command;
 		nbr = atoi(command.c_str()); // convertit command en int pour que nbr = command, pour pouvoir utiliser if
-		
+		int test;
 
 		if (nbr == 1) {
 			char* charArray = new char[command.size() + 1];
 			copy(command.begin(), command.end(), charArray);
 			charArray[command.size()] = '\n';
 
-			arduino.writeSerialPort(charArray, MAX_DATA_LENGTH);
 			arduino.readSerialPort(output, MAX_DATA_LENGTH);
-
-			 cout << output; // sort la valeur envoyé de l'arduino
-			 system("wget http://xxxxxxxxx.alwaysdata.net/php/add.php");
-
-			delete[]charArray;
-		}
-		else if (nbr == 2) {
-			char* charArray = new char[command.size() + 1];
-			copy(command.begin(), command.end(), charArray);
-			charArray[command.size()] = '\n';
-
-			arduino.writeSerialPort(charArray, MAX_DATA_LENGTH);
-			arduino.readSerialPort(output, MAX_DATA_LENGTH);
-
+			test = atoi(output);
 			cout << output; // sort la valeur envoyé de l'arduino
-			system("wget http://xxxxxxxx.alwaysdata.net/php/remove.php");
+			if (test == 1) {
+				//system("wget http://xxxxxxxxx.alwaysdata.net/php/add.php");
+				cout << "Le add est activé";
+			}
+			else if (test == 0) {
+				// system("wget http://xxxxxxxxx.alwaysdata.net/php/remove.php");
+				cout << "Le remove est activé";
+			}
 
-			delete[]charArray;
-		}
-		else 
-		{
-			cout << "Erreur lors de la saisie" << '\n';
+				
 		}
 	}
 	return 0;
